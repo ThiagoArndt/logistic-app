@@ -1,5 +1,5 @@
 import Image from "next/image";
-import loginImage from "../assets/login_image.png";
+import loginImage from "../../assets/login_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { HiOutlineLockClosed } from "react-icons/hi";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
@@ -14,7 +14,7 @@ export default function Login() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 h-screen w-full pageanimation">
+    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full pageanimation">
       <div className="bg-gray-100 flex flex-col justify-center gap-5">
         <form className=" flex flex-col max-w-[550px] w-full mx-auto gap-5">
           <div className="flex flex-col gap-2">
@@ -83,13 +83,15 @@ export default function Login() {
           <button className="border-0 w-full py-4 font-nunito text-white text-xl bg-blue rounded-xl hover:bg-transparent">
             Log In
           </button>
-        </form>
+       
         <p className="text-center font-nunito">
           Dont have an accont?
           <span className="text-blue cursor-pointer"> Create an account</span>
         </p>
+        </form>
       </div>
-      <div className="hidden md:block">
+      
+      <div className="hidden  sm:block">
         <Image
           className="w-full h-full object-cover"
           quality={100}
