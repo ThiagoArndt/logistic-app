@@ -21,13 +21,19 @@ export default function Register() {
   //console.log(emailRef.current?.value, passwordRef.current?.value);
   const signUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios("https:sample-endpoint.com/user", {
+    axios({
       method: "POST",
       data: {
         username: usernameRef.current!.value,
+        email: emailRef.current!.value,
+        password: passwordRef.current!.value
       },
-    }).then(function (response) {
+      url: "http://localhost:3000/api/register"
+    }).then((response) => {
+     
       console.log(response);
+    }).catch((err) => {
+      console.log(err);
     });
   };
 

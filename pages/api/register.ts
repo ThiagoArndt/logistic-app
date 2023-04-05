@@ -20,10 +20,10 @@ export default async function handler(
     const password = req.body.password;
 
     const query =
-      "INSERT INTO 'users' (email, username, password) VALUES (?, ?, ?)";
+      "INSERT INTO users (`email`, `username`, `password`) VALUES (?, ?, ?)";
     const query2 = "SELECT * FROM users WHERE username = ?";
 
-    con.query(query2, ["username"], (err, result: RowDataPacket[]) => {
+    con.query(query2, [username], (err, result: RowDataPacket[]) => {
       if (err) {
         throw err;
       }
@@ -33,7 +33,7 @@ export default async function handler(
       }
       if (result.length === 0) {
         const hashedPassword = bcrypt.hashSync(password, 10);
-        con.query(query, [email, username, password], (err, result) => {
+        con.query(query, [email, username, password], (err, result:RowDataPacket[]) => {
           if (err) {
             throw err;
           }
