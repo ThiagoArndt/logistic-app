@@ -8,7 +8,7 @@ export default function SessionContent(props: SessionInterface) {
       <div className="bg-gray-100 flex flex-col justify-center gap-5">
         <form
           onSubmit={onSubmitHandler}
-          className=" flex flex-col w-9/12 mx-auto gap-5"
+          className=" flex flex-col max-w-[550px] mx-auto gap-5 lg: w-9/12"
         >
           <div className="flex flex-col gap-2">
             <h2

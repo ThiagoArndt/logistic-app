@@ -23,7 +23,7 @@ export interface SessionInfoInterface {
 }
 
 export interface SessionInputInterface {
-  ref: React.Ref<any>;
+  ref: React.ForwardedRef<HTMLInputElement | undefined | null>;
   icon: JSX.Element;
   placeHolder: string;
 }

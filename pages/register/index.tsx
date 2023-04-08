@@ -1,18 +1,14 @@
-import Image from "next/image";
-import loginImage from "../../assets/register_image.png";
+import { useRef } from "react";
+import { useRouter } from "next/router";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import SessionContent from "@/components/session/session-content";
+import SessionHiddenInput from "@/components/session/session-hidden-input";
+import SessionSimpleInput from "@/components/session/session-simple-input";
+import registerImage from "../../assets/register_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineLockClosed } from "react-icons/hi";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { AiOutlineEye } from "react-icons/ai";
-import { useState, useRef } from "react";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { useRouter } from "next/router";
-import SessionContent from "@/components/session/session-content";
 import { SessionInfoInterface } from "@/components/session/types/session-types";
-import registerImage from "../../assets/register_image.png";
-import SessionSimpleInput from "@/components/session/ui/session-simple-input";
-import SessionHiddenInput from "@/components/session/ui/session-hidden-input";
 
 const info: SessionInfoInterface = {
   title: "Register to an Account",

@@ -1,13 +1,24 @@
 import { createContext, useState, useEffect } from "react";
 
-const NotificationContext = createContext({
-  notification: null, // {title, message, status}
-  showNotification: function () {},
-  hideNotification: function () {},
-});
+export interface NotificationInterface {
+  status: string | null | undefined;
+  message: string | null | undefined;
+}
 
-export function NotificationContextProvider(props) {
-    const [notification, setNotification] = useState();
+interface NotificationContextInterface {
+  notification: NotificationInterface | null | undefined;
+  hideNotification: () => void;
+  showNotification: (notificationData: NotificationInterface) => void;
+}
+
+const NotificationContext = createContext<NotificationContextInterface | null>(
+  null
+);
+
+export function NotificationContextProvider(children?: React.ReactNode) {
+  const [notification, setNotification] = useState<
+    NotificationInterface | null | undefined
+  >(null);
 
   useEffect(() => {
     if (
@@ -24,11 +35,8 @@ export function NotificationContextProvider(props) {
     }
   }, [notification]);
 
-
-
-  function showNotificationHandler(notificationData) {
+  function showNotificationHandler(notificationData: NotificationInterface) {
     setNotification({
-      title: notificationData.title,
       message: notificationData.message,
       status: notificationData.status,
     });
@@ -38,7 +46,7 @@ export function NotificationContextProvider(props) {
     setNotification(null);
   }
 
-  const context = {
+  const context: NotificationContextInterface = {
     notification: notification,
     showNotification: showNotificationHandler,
     hideNotification: hideNotificationHandler,
@@ -46,7 +54,7 @@ export function NotificationContextProvider(props) {
 
   return (
     <NotificationContext.Provider value={context}>
-      {props.children}
+      {children}
     </NotificationContext.Provider>
   );
 }
