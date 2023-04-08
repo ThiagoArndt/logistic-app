@@ -3,13 +3,6 @@ import con from "../../helpers/db-utils";
 import { RowDataPacket } from "mysql2";
 import bcrypt from "bcrypt";
 
-interface UserTable {
-  id: number;
-  username: String;
-  email: String;
-  password: String;
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -33,12 +26,16 @@ export default async function handler(
       }
       if (result.length === 0) {
         const hashedPassword = bcrypt.hashSync(password, 10);
-        con.query(query, [email, username, password], (err, result:RowDataPacket[]) => {
-          if (err) {
-            throw err;
+        con.query(
+          query,
+          [email, username, hashedPassword],
+          (err, result: RowDataPacket[]) => {
+            if (err) {
+              throw err;
+            }
+            res.send({ message: "User Created" });
           }
-          res.send({ message: "User Created" });
-        });
+        );
       }
     });
   }

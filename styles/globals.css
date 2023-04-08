@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-.pageanimation {
+.fadeDown {
   animation: slide-down 1s forwards;
+}
+
+.fadeUp {
+  animation: slide-up 1s forwards;
 }
 
 @keyframes slide-down {
