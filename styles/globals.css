@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.pageanimation {
+.fadeDown {
   animation: slide-down 1s forwards;
+}
+
+.fadeUp {
+  animation: slide-up 2s forwards;
+}
+
+.fadeUpLoading {
+  animation: slide-up-loading 0.5s forwards;
 }
 
 @keyframes slide-down {
@@ -17,13 +25,36 @@
   }
 }
 
-@font-face {
-  font-family: "Nunito Sans";
-  src: url("/fonts/nunito/Nunito-Regular.ttf") format("truetype");
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  20% {
+    opacity: 1;
+    transform: none;
+  }
+  90% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes slide-up-loading {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @font-face {
   font-family: "Nunito Sans";
-  src: url("/fonts/nunito/Nunito-Bold.tff") format("truetype");
-  weight: 700;
+  src: url("/fonts/nunito/Nunito-Regular.ttf") format("truetype");
 }

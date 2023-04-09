@@ -1,103 +1,166 @@
-import Image from "next/image";
-import loginImage from "../../assets/register_image.png";
+import { RefObject, useContext, useRef } from "react";
+import { useRouter } from "next/router";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import SessionContent from "@/components/session/session-content";
+import SessionHiddenInput from "@/components/session/session-hidden-input";
+import SessionSimpleInput from "@/components/session/session-simple-input";
+import registerImage from "../../assets/register_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineLockClosed } from "react-icons/hi";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { AiOutlineEye } from "react-icons/ai";
-import { useState } from "react";
+import { SessionInfoInterface } from "@/components/session/types/session-types";
+import NotificationContext from "@/common/store/notification-context";
 
+const info: SessionInfoInterface = {
+  title: "Register to an Account",
+  subtitle: "Register to our service!",
+  btnTitle: "Sign up",
+  firstPartDesc: "Already have an account? ",
+  secondPartDesc: "Login here",
+  image: registerImage,
+};
+
+const BASE_URL = process.env.BASE_URL;
 export default function Register() {
-  const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const notificationCtx = useContext(NotificationContext);
+  const validEmail = new RegExp(
+    "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
+  );
+  const validPassword = new RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$");
 
-  const changeFieldVisibility = () => {
-    setIsVisible((prevCheck) => !prevCheck);
+  const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(usernameRef, emailRef, passwordRef);
+    if (validadeInputText(usernameRef, emailRef, passwordRef) == false) {
+      return;
+    }
+    notificationCtx.showNotification({
+      message: "Carregando...",
+      status: "pending",
+    });
+    axios({
+      method: "POST",
+      data: {
+        username: usernameRef.current!.value,
+        email: emailRef.current!.value,
+        password: passwordRef.current!.value,
+      },
+      baseURL: BASE_URL,
+      url: "/api/register",
+    })
+      .then(async (response: AxiosResponse) => {
+        if (response.data == "User already exists") {
+          notificationCtx.showNotification({
+            message: "Usuário já existente",
+            status: "error",
+          });
+          return;
+        }
+        if (response.status >= 200 && response.status < 400) {
+          notificationCtx.showNotification({
+            message: "Usuário registrado com sucesso!",
+            status: "success",
+          });
+          await router.push("/login");
+        }
+        console.log(response);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response!.status === 401) {
+          notificationCtx.showNotification({
+            message: "Oops, credenciais inválidos",
+            status: "error",
+          });
+        }
+        notificationCtx.showNotification({
+          message: "Algo de errado aconteceu",
+          status: "error",
+        });
+      });
+  };
+
+  const validadeInputText = (
+    userText: RefObject<HTMLInputElement>,
+    emailText: RefObject<HTMLInputElement>,
+    passwordText: RefObject<HTMLInputElement>
+  ): boolean => {
+    if (
+      userText.current == null ||
+      emailText.current == null ||
+      passwordText.current == null
+    ) {
+      notificationCtx.showNotification({
+        message: "Todos os campos devem estar preenchidos",
+        status: "error",
+      });
+      return false;
+    } else if (userText.current.value.length < 2) {
+      notificationCtx.showNotification({
+        message: "Nome do usuário inválido",
+        status: "error",
+      });
+      return false;
+    } else if (validEmail.test(emailText.current.value) === false) {
+      notificationCtx.showNotification({
+        message: "Email inválido",
+        status: "error",
+      });
+      return false;
+    } else if (validPassword.test(passwordText.current.value) === false) {
+      notificationCtx.showNotification({
+        message: "Senha inválida",
+        status: "error",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const navigateToLogin = async () => {
+    await router.push("/login");
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full pageanimation">
-      <div className="bg-gray-100 flex flex-col justify-center gap-5">
-        <form className=" flex flex-col max-w-[550px] w-full mx-auto gap-5">
-          <div className="flex flex-col gap-2">
-            <h2
-              data-te-animation-init
-              data-te-animation-reset="true"
-              data-te-animation="[slide-right_1s_ease-in-out]"
-              className="text-5xl font-nunito font-[700]"
-            >
-              Register to an account
-            </h2>
-            <p className="font-nunito text-xl text-gray">
-              Register to our service!
-            </p>
-          </div>
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col gap-4">
-            <div className="group flex flex-row py-2 relative justify-center border-4 rounded-xl border-lightGray hover:border-blue duration-300 focus-within:border-blue">
-                <BiUser
-                  className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-                  size={30}
-                />
-                <input
-                  className="p-2 flex-grow ml-3 outline-none font-nunito text-xl group-hover:placeholder-blue duration-300 "
-                  type="text"
-                  placeholder="Username"
-                />
-              </div>
-              <div className="group flex flex-row py-2 relative justify-center border-4 rounded-xl border-lightGray hover:border-blue duration-300 focus-within:border-blue">
-                <MdOutlineEmail
-                  className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-                  size={30}
-                />
-                <input
-                  className="p-2 flex-grow ml-3 outline-none font-nunito text-xl group-hover:placeholder-blue duration-300 "
-                  type="text"
-                  placeholder="Email"
-                />
-              </div>
-              <div className="group flex flex-row py-2 relative justify-center border-4 rounded-xl border-lightGray hover:border-blue duration-300 focus-within:border-blue">
-                <HiOutlineLockClosed
-                  className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-                  size={30}
-                />
-                <input
-                  className=" p-2 flex-grow ml-3 outline-none font-nunito text-xl group-hover:placeholder-blue duration-300"
-                  type={!isVisible ? "password" : "text"}
-                  placeholder="Password"
-                />
-                {!isVisible ? (
-                  <AiOutlineEyeInvisible
-                    cursor="pointer"
-                    onClick={changeFieldVisibility}
-                    className="my-auto mr-5 text-gray transition ease-in-out delay-150 bg-blue-500  hover:scale-105 duration-100"
-                    size={30}
-                  />
-                ) : (
-                  <AiOutlineEye
-                    cursor="pointer"
-                    onClick={changeFieldVisibility}
-                    className="my-auto mr-5 text-blue transition ease-in-out delay-150 bg-blue-500  hover:scale-105 duration-100"
-                    size={30}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          <button className="border-0 w-full py-4 font-nunito text-white text-xl bg-blue rounded-xl hover:bg-transparent">
-            Sign Up
-          </button>
-       
-        </form>
-      </div>
-      
-      <div className="hidden sm:block">
-        <Image
-          className="w-full h-full object-cover"
-          quality={100}
-          src={loginImage}
-          alt=""
-        />
-      </div>
-    </div>
+    <SessionContent
+      info={info}
+      navigationHandler={navigateToLogin}
+      onSubmitHandler={registerHandler}
+    >
+      <SessionSimpleInput
+        icon={
+          <BiUser
+            className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
+            size={30}
+          ></BiUser>
+        }
+        placeHolder="Username"
+        ref={usernameRef}
+      ></SessionSimpleInput>
+
+      <SessionSimpleInput
+        icon={
+          <MdOutlineEmail
+            className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
+            size={30}
+          ></MdOutlineEmail>
+        }
+        placeHolder="Email"
+        ref={emailRef}
+      ></SessionSimpleInput>
+      <SessionHiddenInput
+        icon={
+          <HiOutlineLockClosed
+            className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
+            size={30}
+          ></HiOutlineLockClosed>
+        }
+        placeHolder="Password"
+        ref={passwordRef}
+      ></SessionHiddenInput>
+    </SessionContent>
   );
 }
