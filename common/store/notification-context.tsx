@@ -1,24 +1,30 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, FC } from "react";
 
 export interface NotificationInterface {
-  status: string | null | undefined;
-  message: string | null | undefined;
+  status: string;
+  message: string;
 }
 
-interface NotificationContextInterface {
-  notification: NotificationInterface | null | undefined;
+export type NotificationType = {
+  status: string;
+  message: string;
+};
+
+export const NotificationContext = createContext<{
+  notification: NotificationInterface;
   hideNotification: () => void;
-  showNotification: (notificationData: NotificationInterface) => void;
-}
+  showNotification: (value: NotificationInterface) => void;
+}>({
+  notification: { message: "hahaha", status: "error" },
+  hideNotification: () => {},
+  showNotification: ({ message, status }) => {},
+});
 
-const NotificationContext = createContext<NotificationContextInterface | null>(
-  null
-);
-
-export function NotificationContextProvider(children?: React.ReactNode) {
-  const [notification, setNotification] = useState<
-    NotificationInterface | null | undefined
-  >(null);
+export const NotificationContextProvider = (props: any) => {
+  const [notification, setNotification] = useState<NotificationInterface>({
+    message: "",
+    status: "",
+  });
 
   useEffect(() => {
     if (
@@ -26,7 +32,10 @@ export function NotificationContextProvider(children?: React.ReactNode) {
       (notification.status === "success" || notification.status === "error")
     ) {
       const timer = setTimeout(() => {
-        setNotification(null);
+        setNotification({
+          message: "",
+          status: "",
+        });
       }, 3000);
 
       return () => {
@@ -43,10 +52,13 @@ export function NotificationContextProvider(children?: React.ReactNode) {
   }
 
   function hideNotificationHandler() {
-    setNotification(null);
+    setNotification({
+      message: "",
+      status: "",
+    });
   }
 
-  const context: NotificationContextInterface = {
+  const context: any = {
     notification: notification,
     showNotification: showNotificationHandler,
     hideNotification: hideNotificationHandler,
@@ -54,9 +66,9 @@ export function NotificationContextProvider(children?: React.ReactNode) {
 
   return (
     <NotificationContext.Provider value={context}>
-      {children}
+      {props.children}
     </NotificationContext.Provider>
   );
-}
+};
 
 export default NotificationContext;

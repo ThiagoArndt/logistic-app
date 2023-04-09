@@ -1,18 +1,17 @@
-import Image from "next/image";
 import loginImage from "../../assets/login_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { HiOutlineLockClosed } from "react-icons/hi";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { AiOutlineEye } from "react-icons/ai";
-import { useState, useRef, useContext } from "react";
-import axios, { AxiosResponse } from "axios";
+import { useRef, useContext, MutableRefObject } from "react";
+import axios from "axios";
 import { useRouter } from "next/router";
 import SessionContent from "@/components/session/session-content";
 
 import SessionHiddenInput from "@/components/session/session-hidden-input";
 import { SessionInfoInterface } from "@/components/session/types/session-types";
 import SessionSimpleInput from "@/components/session/session-simple-input";
-import NotificationContext from "@/common/store/notification-context";
+import NotificationContext, {
+  NotificationType,
+} from "@/common/store/notification-context";
 
 const info: SessionInfoInterface = {
   title: "Log In to your Account",
@@ -25,12 +24,17 @@ const info: SessionInfoInterface = {
 const BASE_URL = process.env.BASE_URL;
 export default function Login() {
   const router = useRouter();
-
   const emailRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
+  const notificationCtx = useContext(NotificationContext);
 
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    notificationCtx.showNotification({
+      message: "Carregando...",
+      status: "pending",
+    });
 
     await axios({
       method: "POST",
@@ -45,10 +49,18 @@ export default function Login() {
       .then(async (response) => {
         console.log(response);
         if (response.status == 200) {
+          notificationCtx.showNotification({
+            message: "Login efetuado com sucesso!",
+            status: "success",
+          });
           await router.push("/dashboard");
         }
       })
       .catch((err) => {
+        notificationCtx.showNotification({
+          message: "Oops, credenciais inválidos",
+          status: "error",
+        });
         console.log("caiu no catch");
         console.log(err);
       });

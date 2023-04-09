@@ -14,9 +14,9 @@ export default async function handler(
 
     const query =
       "INSERT INTO users (`email`, `username`, `password`) VALUES (?, ?, ?)";
-    const query2 = "SELECT * FROM users WHERE username = ?";
+    const query2 = "SELECT * FROM users WHERE username = ? || email = ?";
 
-    con.query(query2, [username], (err, result: RowDataPacket[]) => {
+    con.query(query2, [username, email], (err, result: RowDataPacket[]) => {
       if (err) {
         throw err;
       }

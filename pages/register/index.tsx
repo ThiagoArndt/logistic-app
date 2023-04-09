@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { RefObject, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import SessionContent from "@/components/session/session-content";
@@ -9,6 +9,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineLockClosed } from "react-icons/hi";
 import { SessionInfoInterface } from "@/components/session/types/session-types";
+import NotificationContext from "@/common/store/notification-context";
 
 const info: SessionInfoInterface = {
   title: "Register to an Account",
@@ -19,16 +20,28 @@ const info: SessionInfoInterface = {
   image: registerImage,
 };
 
-const BASE_RUL = process.env.BASE_URL;
-//TODO: Tratar para o usuário nunca inserir um campo vazio nos input, se nao vai dar merda, namoral.
+const BASE_URL = process.env.BASE_URL;
 export default function Register() {
   const router = useRouter();
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const notificationCtx = useContext(NotificationContext);
+  const validEmail = new RegExp(
+    "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
+  );
+  const validPassword = new RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$");
 
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(usernameRef, emailRef, passwordRef);
+    if (validadeInputText(usernameRef, emailRef, passwordRef) == false) {
+      return;
+    }
+    notificationCtx.showNotification({
+      message: "Carregando...",
+      status: "pending",
+    });
     axios({
       method: "POST",
       data: {
@@ -36,20 +49,75 @@ export default function Register() {
         email: emailRef.current!.value,
         password: passwordRef.current!.value,
       },
-      url: `${BASE_RUL}/api/register`,
+      baseURL: BASE_URL,
+      url: "/api/register",
     })
-      .then((response: AxiosResponse) => {
-        if (response.status >= 200 && response.status < 400)
-          console.log(response);
+      .then(async (response: AxiosResponse) => {
+        if (response.data == "User already exists") {
+          notificationCtx.showNotification({
+            message: "Usuário já existente",
+            status: "error",
+          });
+          return;
+        }
+        if (response.status >= 200 && response.status < 400) {
+          notificationCtx.showNotification({
+            message: "Usuário registrado com sucesso!",
+            status: "success",
+          });
+          await router.push("/login");
+        }
+        console.log(response);
       })
       .catch((err: AxiosError) => {
         if (err.response!.status === 401) {
-          console.log(err);
-        } else {
-          console.log(err);
+          notificationCtx.showNotification({
+            message: "Oops, credenciais inválidos",
+            status: "error",
+          });
         }
-        console.log(err);
+        notificationCtx.showNotification({
+          message: "Algo de errado aconteceu",
+          status: "error",
+        });
       });
+  };
+
+  const validadeInputText = (
+    userText: RefObject<HTMLInputElement>,
+    emailText: RefObject<HTMLInputElement>,
+    passwordText: RefObject<HTMLInputElement>
+  ): boolean => {
+    if (
+      userText.current == null ||
+      emailText.current == null ||
+      passwordText.current == null
+    ) {
+      notificationCtx.showNotification({
+        message: "Todos os campos devem estar preenchidos",
+        status: "error",
+      });
+      return false;
+    } else if (userText.current.value.length < 2) {
+      notificationCtx.showNotification({
+        message: "Nome do usuário inválido",
+        status: "error",
+      });
+      return false;
+    } else if (validEmail.test(emailText.current.value) === false) {
+      notificationCtx.showNotification({
+        message: "Email inválido",
+        status: "error",
+      });
+      return false;
+    } else if (validPassword.test(passwordText.current.value) === false) {
+      notificationCtx.showNotification({
+        message: "Senha inválida",
+        status: "error",
+      });
+      return false;
+    }
+    return true;
   };
 
   const navigateToLogin = async () => {
@@ -70,7 +138,7 @@ export default function Register() {
           ></BiUser>
         }
         placeHolder="Username"
-        ref={emailRef}
+        ref={usernameRef}
       ></SessionSimpleInput>
 
       <SessionSimpleInput
@@ -91,7 +159,7 @@ export default function Register() {
           ></HiOutlineLockClosed>
         }
         placeHolder="Password"
-        ref={emailRef}
+        ref={passwordRef}
       ></SessionHiddenInput>
     </SessionContent>
   );
