@@ -4,7 +4,7 @@ const con = createPool({
   connectTimeout: 10,
   host: "localhost",
   user: "root",
-  password: "123456",
+  password: process.env.DATABASE_PASSWORD,
   database: "almoxarifadodb",
 });
 
