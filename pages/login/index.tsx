@@ -17,7 +17,7 @@ const info: SessionInfoInterface = {
   title: "Log In to your Account",
   subtitle: "Welcome again! How are you doing?",
   btnTitle: "LogIn",
-  firstPartDesc: "Dont't have an account? ",
+  firstPartDesc: "Don't have an account? ",
   secondPartDesc: "Create a new one here",
   image: loginImage,
 };
@@ -30,6 +30,8 @@ export default function Login() {
 
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    document.title = "Almoxarifado";
 
     notificationCtx.showNotification({
       message: "Carregando...",
@@ -80,7 +82,7 @@ export default function Login() {
         icon={
           <MdOutlineEmail
             className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={30}
+            size={16}
           ></MdOutlineEmail>
         }
         placeHolder="Email"
@@ -91,7 +93,7 @@ export default function Login() {
         icon={
           <HiOutlineLockClosed
             className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={30}
+            size={16}
           ></HiOutlineLockClosed>
         }
         placeHolder="Password"

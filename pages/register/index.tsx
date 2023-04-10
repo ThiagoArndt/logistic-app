@@ -134,7 +134,7 @@ export default function Register() {
         icon={
           <BiUser
             className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={30}
+            size={16}
           ></BiUser>
         }
         placeHolder="Username"
@@ -145,7 +145,7 @@ export default function Register() {
         icon={
           <MdOutlineEmail
             className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={30}
+            size={16}
           ></MdOutlineEmail>
         }
         placeHolder="Email"
@@ -155,7 +155,7 @@ export default function Register() {
         icon={
           <HiOutlineLockClosed
             className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={30}
+            size={16}
           ></HiOutlineLockClosed>
         }
         placeHolder="Password"
