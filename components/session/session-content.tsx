@@ -1,11 +1,13 @@
 import Image from "next/image";
 import { SessionInterface } from "./types/session-types";
 import Layout from "../ui/layout";
+import FadeDown from "../framer-animations/fadeDown";
+import Fade from "../framer-animations/fade";
 
 export default function SessionContent(props: SessionInterface) {
   const { children, info, navigationHandler, onSubmitHandler } = props;
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full fadeDown ">
+    <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full">
       <div className="bg-gray-100 flex flex-col px-4 justify-center gap-5">
         <Layout>
           <form
@@ -13,6 +15,7 @@ export default function SessionContent(props: SessionInterface) {
             className=" flex flex-col max-w-[550px] mx-auto gap-5 lg: w-full"
           >
             <div className="flex flex-col gap-2">
+              <FadeDown>
               <h2
                 data-te-animation-init
                 data-te-animation-reset="true"
@@ -21,15 +24,22 @@ export default function SessionContent(props: SessionInterface) {
               >
                 {info.title}
               </h2>
-              <p className="font-nunito text-lg text-gray">{info.subtitle}</p>
+              </FadeDown>
+              <FadeDown delay={.1}>
+                <p className="font-nunito text-lg text-gray">{info.subtitle}</p>
+              </FadeDown>
             </div>
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-4">{children}</div>
             </div>
-            <button className="border-0 w-full py-4 font-nunito text-white text-base bg-blue rounded-xl hover:brightness-90 transition-all duration-200 hover:bg-transparent">
-              {info.btnTitle}
-            </button>
 
+            <FadeDown delay={.3}>
+              <button className="border-0 w-full py-4 font-nunito text-white text-base bg-blue rounded-xl hover:brightness-90 transition-all duration-200 hover:bg-transparent">
+                {info.btnTitle}
+              </button>
+            </FadeDown>
+
+            <Fade delay={.4}>
             <p className="text-center text-sm font-nunito">
               {info.firstPartDesc}
               <span
@@ -40,6 +50,7 @@ export default function SessionContent(props: SessionInterface) {
                 {info.secondPartDesc}
               </span>
             </p>
+            </Fade>
           </form>
         </Layout>
       </div>

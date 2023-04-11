@@ -12,6 +12,7 @@ import SessionSimpleInput from "@/components/session/session-simple-input";
 import NotificationContext, {
   NotificationType,
 } from "@/common/store/notification-context";
+import FadeDown from "@/components/framer-animations/fadeDown";
 
 const info: SessionInfoInterface = {
   title: "Log In to your Account",
@@ -78,27 +79,32 @@ export default function Login() {
       navigationHandler={navigateToRegister}
       onSubmitHandler={loginHandler}
     >
-      <SessionSimpleInput
-        icon={
-          <MdOutlineEmail
-            className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={16}
-          ></MdOutlineEmail>
-        }
-        placeHolder="Email"
-        ref={emailRef}
-      ></SessionSimpleInput>
-
-      <SessionHiddenInput
-        icon={
-          <HiOutlineLockClosed
-            className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={16}
-          ></HiOutlineLockClosed>
-        }
-        placeHolder="Password"
-        ref={passwordRef}
-      ></SessionHiddenInput>
+    
+    <FadeDown 
+      className="flex flex-col gap-2"
+      delay={.2}
+    >
+        <SessionSimpleInput
+          icon={
+            <MdOutlineEmail
+              className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
+              size={16}
+            ></MdOutlineEmail>
+          }
+          placeHolder="Email"
+          ref={emailRef}
+        />
+        <SessionHiddenInput
+          icon={
+            <HiOutlineLockClosed
+              className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
+              size={16}
+            ></HiOutlineLockClosed>
+          }
+          placeHolder="Password"
+          ref={passwordRef}
+        />
+      </FadeDown>
     </SessionContent>
   );
 }
