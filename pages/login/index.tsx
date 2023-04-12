@@ -13,6 +13,7 @@ import NotificationContext, {
   NotificationType,
 } from "@/common/store/notification-context";
 import FadeDown from "@/components/framer-animations/fadeDown";
+import Head from "next/head";
 
 const info: SessionInfoInterface = {
   title: "Log In to your Account",
@@ -31,8 +32,6 @@ export default function Login() {
 
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    document.title = "Almoxarifado";
 
     notificationCtx.showNotification({
       message: "Carregando...",
@@ -79,6 +78,9 @@ export default function Login() {
       navigationHandler={navigateToRegister}
       onSubmitHandler={loginHandler}
     >
+      <Head>
+          <title>Login | Almoxarifado</title>
+      </Head>
     
     <FadeDown 
       className="flex flex-col gap-2"
