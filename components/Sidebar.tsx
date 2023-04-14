@@ -32,13 +32,13 @@ export default function Sidebar() {
             <div className="w-full flex flex-col gap-6">
                 <Tab 
                     icon={<Sliders size={18}/>}
-                    to=""
+                    onClick={() => alert("Voce esta nas configuracoes")}
                 />
 
                 <Tab 
                     icon={<LogOut size={18}/>}
                     danger
-                    to=""
+                    to="/login"
                 />
             </div>
         </div>
