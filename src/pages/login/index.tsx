@@ -1,23 +1,22 @@
-import loginImage from "../../assets/login_image.png";
+import loginImage from "../../../public/login_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { HiOutlineLockClosed } from "react-icons/hi";
-import { useRef, useContext, MutableRefObject } from "react";
+import { useRef, useContext } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import SessionContent from "@/components/session/session-content";
-
-import SessionHiddenInput from "@/components/session/session-hidden-input";
-import { SessionInfoInterface } from "@/components/session/types/session-types";
-import SessionSimpleInput from "@/components/session/session-simple-input";
-import NotificationContext, {
-  NotificationType,
-} from "@/common/store/notification-context";
+import SessionContent from "@/src/common/components/session/session-content";
+import SessionHiddenInput from "@/src/common/components/session/session-hidden-input";
+import { SessionInfoInterface } from "@/src/common/components/session/types/session-types";
+import SessionSimpleInput from "@/src/common/components/session/session-simple-input";
+import NotificationContext from "@/src/common/context/notification-context";
+import FadeDown from "@/src/common/components/framer-animations/fadeDown";
+import Head from "next/head";
 
 const info: SessionInfoInterface = {
   title: "Log In to your Account",
   subtitle: "Welcome again! How are you doing?",
   btnTitle: "LogIn",
-  firstPartDesc: "Dont't have an account? ",
+  firstPartDesc: "Don't have an account? ",
   secondPartDesc: "Create a new one here",
   image: loginImage,
 };
@@ -76,27 +75,32 @@ export default function Login() {
       navigationHandler={navigateToRegister}
       onSubmitHandler={loginHandler}
     >
-      <SessionSimpleInput
-        icon={
-          <MdOutlineEmail
-            className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={30}
-          ></MdOutlineEmail>
-        }
-        placeHolder="Email"
-        ref={emailRef}
-      ></SessionSimpleInput>
+      <Head>
+        <title>Login | Almoxarifado</title>
+      </Head>
 
-      <SessionHiddenInput
-        icon={
-          <HiOutlineLockClosed
-            className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
-            size={30}
-          ></HiOutlineLockClosed>
-        }
-        placeHolder="Password"
-        ref={passwordRef}
-      ></SessionHiddenInput>
+      <FadeDown className="flex flex-col gap-2" delay={0.2}>
+        <SessionSimpleInput
+          icon={
+            <MdOutlineEmail
+              className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
+              size={16}
+            ></MdOutlineEmail>
+          }
+          placeHolder="Email"
+          ref={emailRef}
+        />
+        <SessionHiddenInput
+          icon={
+            <HiOutlineLockClosed
+              className="my-auto ml-5 text-gray group-hover:text-blue duration-300 group-focus-within:text-blue"
+              size={16}
+            ></HiOutlineLockClosed>
+          }
+          placeHolder="Password"
+          ref={passwordRef}
+        />
+      </FadeDown>
     </SessionContent>
   );
 }
