@@ -1,18 +1,15 @@
-import loginImage from "../../assets/login_image.png";
+import loginImage from "../../../public/login_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { HiOutlineLockClosed } from "react-icons/hi";
-import { useRef, useContext, MutableRefObject } from "react";
+import { useRef, useContext } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import SessionContent from "@/components/session/session-content";
-
-import SessionHiddenInput from "@/components/session/session-hidden-input";
-import { SessionInfoInterface } from "@/components/session/types/session-types";
-import SessionSimpleInput from "@/components/session/session-simple-input";
-import NotificationContext, {
-  NotificationType,
-} from "@/common/store/notification-context";
-import FadeDown from "@/components/framer-animations/fadeDown";
+import SessionContent from "@/src/common/components/session/session-content";
+import SessionHiddenInput from "@/src/common/components/session/session-hidden-input";
+import { SessionInfoInterface } from "@/src/common/components/session/types/session-types";
+import SessionSimpleInput from "@/src/common/components/session/session-simple-input";
+import NotificationContext from "@/src/common/context/notification-context";
+import FadeDown from "@/src/common/components/framer-animations/fadeDown";
 import Head from "next/head";
 
 const info: SessionInfoInterface = {
@@ -79,13 +76,10 @@ export default function Login() {
       onSubmitHandler={loginHandler}
     >
       <Head>
-          <title>Login | Almoxarifado</title>
+        <title>Login | Almoxarifado</title>
       </Head>
-    
-    <FadeDown 
-      className="flex flex-col gap-2"
-      delay={.2}
-    >
+
+      <FadeDown className="flex flex-col gap-2" delay={0.2}>
         <SessionSimpleInput
           icon={
             <MdOutlineEmail

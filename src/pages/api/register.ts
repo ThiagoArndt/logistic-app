@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import con from "../../helpers/db-utils";
+import con from "@/src/common/utils/db-utils";
 import { RowDataPacket } from "mysql2";
 import bcrypt from "bcrypt";
 

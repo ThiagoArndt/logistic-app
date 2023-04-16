@@ -1,5 +1,5 @@
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
+import Header from "../common/components/Header";
+import Sidebar from "../common/components/Sidebar";
 import Head from "next/head";
 import React from "react";
 
@@ -14,9 +14,7 @@ function PaginaPrincipal() {
       <div className="flex flex-col w-full">
         <Header />
 
-        <div className="p-4 bg-[#F7F7F7] flex-1">
-          PaginaPrincipal
-        </div>
+        <div className="p-4 bg-[#F7F7F7] flex-1">PaginaPrincipal</div>
       </div>
     </div>
   );

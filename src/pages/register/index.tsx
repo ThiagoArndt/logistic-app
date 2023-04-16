@@ -1,16 +1,17 @@
 import { RefObject, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import SessionContent from "@/components/session/session-content";
-import SessionHiddenInput from "@/components/session/session-hidden-input";
-import SessionSimpleInput from "@/components/session/session-simple-input";
-import registerImage from "../../assets/register_image.png";
+
+import registerImage from "../../../public/register_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineLockClosed } from "react-icons/hi";
-import { SessionInfoInterface } from "@/components/session/types/session-types";
-import NotificationContext from "@/common/store/notification-context";
-import FadeDown from "@/components/framer-animations/fadeDown";
+import SessionContent from "@/src/common/components/session/session-content";
+import SessionHiddenInput from "@/src/common/components/session/session-hidden-input";
+import { SessionInfoInterface } from "@/src/common/components/session/types/session-types";
+import SessionSimpleInput from "@/src/common/components/session/session-simple-input";
+import NotificationContext from "@/src/common/context/notification-context";
+import FadeDown from "@/src/common/components/framer-animations/fadeDown";
 
 const info: SessionInfoInterface = {
   title: "Register to an Account",
@@ -131,10 +132,7 @@ export default function Register() {
       navigationHandler={navigateToLogin}
       onSubmitHandler={registerHandler}
     >
-      <FadeDown
-        className="flex flex-col gap-2"
-        delay={.2}
-      >
+      <FadeDown className="flex flex-col gap-2" delay={0.2}>
         <SessionSimpleInput
           icon={
             <BiUser

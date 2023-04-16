@@ -1,4 +1,4 @@
-import NotificationContext from "@/common/store/notification-context";
+import NotificationContext from "@/src/common/context/notification-context";
 import React, { Fragment, useContext } from "react";
 import NotificationDisplay from "./notificationDisplay";
 
