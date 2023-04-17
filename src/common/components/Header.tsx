@@ -1,4 +1,4 @@
-import { User } from "react-feather";
+import { ChevronLeft, ChevronRight, User } from "react-feather";
 
 interface props {
 
@@ -7,7 +7,16 @@ interface props {
 export default function Header(props: props) {
     return(
         <div className="flex items-center border-b border-[#EFF0F3] justify-between px-10 py-5">
-            <div className="select-none">
+            <div className="flex items-center select-none gap-4">
+                {/* <div className="flex items-center h-full justify-center">
+                    <button  className="h-full aspect-square p-2 rounded-md hover:bg-[#fefe] hover:text-blue transition-all duration-200">
+                        <ChevronLeft size={18} />
+                    </button>
+
+                    <button  className="h-full aspect-square p-2 rounded-md hover:bg-[#fefe] hover:text-blue transition-all duration-200">
+                        <ChevronRight size={18} />
+                    </button>
+                </div> */}
                 <h1 className="font-semibold text-[#666]">Dashboard</h1>
             </div>
 
