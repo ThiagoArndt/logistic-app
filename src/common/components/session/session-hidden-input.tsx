@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { SessionInputInterface } from "./types/session-types";
+import { SessionInputInterface } from "../../types/session-types";
 
 const SessionHiddenInput = forwardRef(
   (props: SessionInputInterface, ref: any) => {

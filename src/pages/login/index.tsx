@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import SessionContent from "@/src/common/components/session/session-content";
 import SessionHiddenInput from "@/src/common/components/session/session-hidden-input";
-import { SessionInfoInterface } from "@/src/common/components/session/types/session-types";
+import { SessionInfoInterface } from "@/src/common/types/session-types";
 import SessionSimpleInput from "@/src/common/components/session/session-simple-input";
 import NotificationContext from "@/src/common/context/notification-context";
 import FadeDown from "@/src/common/components/framer-animations/fadeDown";

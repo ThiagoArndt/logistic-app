@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 
-import { SessionInputInterface } from "./types/session-types";
+import { SessionInputInterface } from "../../types/session-types";
 
 const SessionSimpleInput = forwardRef(
   (props: SessionInputInterface, ref: any) => {
