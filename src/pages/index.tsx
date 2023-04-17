@@ -3,7 +3,7 @@ import Sidebar from "../common/components/Sidebar";
 import Head from "next/head";
 import React from "react";
 
-function PaginaPrincipal() {
+function Principal() {
   return (
     <div className="flex h-screen">
       <Head>
@@ -20,4 +20,4 @@ function PaginaPrincipal() {
   );
 }
 
-export default PaginaPrincipal;
+export default Principal;
