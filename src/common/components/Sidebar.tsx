@@ -3,8 +3,11 @@ import appLogo from "../../../public/almoxarifadofav.svg";
 import Image from "next/image";
 import Tab from "./SideBarTabs";
 import { Archive, Home, LogOut, ShoppingBag, Sliders } from "react-feather";
+import { useState } from "react";
 
 export default function Sidebar() {
+  const [selected, setSelected] = useState(false);
+
   return (
     <div className="bg-[#fff] flex flex-col items-center justify-between p-10 border-r border-[#EFF0F3]">
       <div className="flex gap-6 flex-col">
@@ -12,7 +15,7 @@ export default function Sidebar() {
 
         <div className="w-full h-[2px] rounded-full bg-[#EFF0F3]" />
 
-        <Tab icon={<Home size={18} />} selected to="" />
+        <Tab icon={<Home size={18} />} onClick={() => setSelected(!selected)} selected={selected} />
 
         <Tab icon={<Archive size={18} />} to="" />
 
