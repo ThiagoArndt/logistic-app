@@ -2,7 +2,7 @@ import { RefObject, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import registerImage from "../../../public/register_image.png";
+import registerImage from "../../../public/static/register_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineLockClosed } from "react-icons/hi";
@@ -55,33 +55,27 @@ export default function Register() {
       url: "/api/register",
     })
       .then(async (response: AxiosResponse) => {
-        if (response.data == "User already exists") {
-          notificationCtx.showNotification({
-            message: "Usuário já existente",
-            status: "error",
-          });
-          return;
-        }
         if (response.status >= 200 && response.status < 400) {
           notificationCtx.showNotification({
-            message: "Usuário registrado com sucesso!",
+            message: response.data,
             status: "success",
           });
           await router.push("/login");
         }
-        console.log(response);
       })
       .catch((err: AxiosError) => {
-        if (err.response!.status === 401) {
+        if (err.response!.status == 401) {
           notificationCtx.showNotification({
-            message: "Oops, credenciais inválidos",
+            message: err.response!.data as string,
             status: "error",
           });
         }
-        notificationCtx.showNotification({
-          message: "Algo de errado aconteceu",
-          status: "error",
-        });
+        else{
+          notificationCtx.showNotification({
+            message: err.response!.data as string,
+            status: "error",
+          });
+        }      
       });
   };
 

@@ -1,42 +1,58 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import con from "@/src/common/utils/db-utils";
-import { RowDataPacket } from "mysql2";
 import bcrypt from "bcrypt";
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient();
+
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
-    const email = req.body.email;
-    const username = req.body.username;
-    const password = req.body.password;
+  try {
+    if (req.method === "POST") {
+      const email = req.body.email;
+      const username = req.body.username;
+      const password = req.body.password;
+      const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const query =
-      "INSERT INTO users (`email`, `username`, `password`) VALUES (?, ?, ?)";
-    const query2 = "SELECT * FROM users WHERE username = ? || email = ?";
-
-    con.query(query2, [username, email], (err, result: RowDataPacket[]) => {
-      if (err) {
-        throw err;
-      }
-
-      if (result.length > 0) {
-        res.send("User already exists");
-      }
-      if (result.length === 0) {
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        con.query(
-          query,
-          [email, username, hashedPassword],
-          (err, result: RowDataPacket[]) => {
-            if (err) {
-              throw err;
+      const checkIfExists = await prisma.users.findMany({
+        where: {
+          OR: [
+            {
+              email: email
+            },
+            {
+              username: username
             }
-            res.send({ message: "User Created" });
-          }
-        );
+          ],
+        },
+      });
+
+      if (checkIfExists.length > 0) {
+        res.status(401);
+        res.send('Usuario já cadastrado');
+
       }
-    });
+      else {
+        const user = await prisma.users.create({
+          data: {
+            email: email,
+            username: username,
+            password: hashedPassword
+          },
+        });
+
+        res.status(200).json('Usuário cadastrado com sucesso!');
+      }
+      await prisma.$disconnect();
+    }
+  }
+  catch (err) {
+    res.send("Oops, algo de errado aconteceu");
+    res.status(500);
+    await prisma.$disconnect()
+    process.exit(1);
   }
 }
+

@@ -1,4 +1,4 @@
-import loginImage from "../../../public/login_image.png";
+import loginImage from "../../../public/static/login_image.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { HiOutlineLockClosed } from "react-icons/hi";
 import { useRef, useContext } from "react";
@@ -46,22 +46,21 @@ export default function Login() {
       url: "/api/login",
     })
       .then(async (response) => {
-        console.log(response);
         if (response.status == 200) {
           notificationCtx.showNotification({
-            message: "Login efetuado com sucesso!",
+            message: response.data,
             status: "success",
           });
           await router.push("/dashboard");
         }
+
+    
       })
       .catch((err) => {
         notificationCtx.showNotification({
-          message: "Oops, credenciais inválidos",
+          message: err.response!.data as string,
           status: "error",
         });
-        console.log("caiu no catch");
-        console.log(err);
       });
   };
 
