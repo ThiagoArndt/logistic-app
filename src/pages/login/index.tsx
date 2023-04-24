@@ -46,19 +46,21 @@ export default function Login() {
       url: "/api/login",
     })
       .then(async (response) => {
+        console.log(response);
         if (response.status == 200) {
           notificationCtx.showNotification({
-            message: response.data,
+            message: response.data.message,
             status: "success",
           });
           await router.push("/dashboard");
         }
 
-    
+
       })
       .catch((err) => {
+        console.log(err.response);
         notificationCtx.showNotification({
-          message: err.response!.data as string,
+          message: err.response!.data.message as string,
           status: "error",
         });
       });

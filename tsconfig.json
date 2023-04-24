@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "types": [
+      "jest",
+      "node"
+    ],
     "noImplicitThis": false,
     "target": "es5",
     "lib": [

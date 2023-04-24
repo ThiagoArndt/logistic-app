@@ -11,7 +11,7 @@ const secret = process.env.SECRET;
 
 const prisma = new PrismaClient();
 
-export default async function handler(
+export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -31,7 +31,7 @@ export default async function handler(
 
         if (query == null) {
           res.status(401);
-          res.send('Usuario não encontrado');
+          res.send({ message: 'Usuario não encontrado' });
           res.end();
         }
         else {
@@ -41,7 +41,7 @@ export default async function handler(
             query.password!,
             (err, isOk: boolean) => {
               if (!isOk) {
-                res.status(401).send('Senha Incorreta');
+                res.status(401).send({ message: 'Senha Incorreta' });
 
                 res.end();
               }
@@ -65,7 +65,7 @@ export default async function handler(
                 res.setHeader("Set-Cookie", serialised);
 
                 res.status(200);
-                res.send('Usuário autenticado com sucesso!');
+                res.send({ message: 'Usuário autenticado com sucesso!', token: token });
                 res.end();
 
               }

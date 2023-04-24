@@ -6,6 +6,7 @@ jest.mock("next/router", () => ({
   useRouter() {
     return {
       pathname: "",
+
       // ... whatever else you you call on `router`
     };
   },
