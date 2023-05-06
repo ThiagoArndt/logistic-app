@@ -52,7 +52,7 @@ export default function Register() {
         password: passwordRef.current!.value,
       },
       baseURL: BASE_URL,
-      url: "/api/register",
+      url: "/api/auth/register",
     })
       .then(async (response: AxiosResponse) => {
         if (response.status >= 200 && response.status < 400) {
@@ -70,12 +70,12 @@ export default function Register() {
             status: "error",
           });
         }
-        else{
+        else {
           notificationCtx.showNotification({
             message: err.response!.data as string,
             status: "error",
           });
-        }      
+        }
       });
   };
 

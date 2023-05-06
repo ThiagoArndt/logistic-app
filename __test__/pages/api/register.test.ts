@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import handler from '@/src/pages/api/register';
+import handler from '@/src/pages/api/auth/register';
 import prisma from '../..//utils/client';
 import { server, setup, teardown } from '../../utils/integration-test-hooks'
 import { cleanUp } from '../..//utils/db-test-setup';

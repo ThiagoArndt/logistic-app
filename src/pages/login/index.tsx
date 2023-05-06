@@ -43,7 +43,7 @@ export default function Login() {
         password: passwordRef.current!.value,
       },
       baseURL: BASE_URL,
-      url: "/api/login",
+      url: "/api/auth/login",
     })
       .then(async (response) => {
         console.log(response);

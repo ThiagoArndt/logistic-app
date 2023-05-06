@@ -3,7 +3,7 @@ import { jwtVerify } from "jose";
 
 const secret = process.env.SECRET;
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { cookies } = req;
 
   const jwt = cookies.get("OursiteJWT");
@@ -14,10 +14,16 @@ export function middleware(req: NextRequest) {
   ) {
     if (jwt) {
       try {
-        verify(jwt.value, secret!);
+        if (secret == undefined) {
+          console.log("processs.env.SECRET is undefined");
+          return NextResponse.next();
+        }
+        const a = await verify(jwt.value, secret);
+
         return NextResponse.redirect(new URL("/dashboard", req.url));
       } catch (err) {
         return NextResponse.next();
+
       }
     }
   }
@@ -28,13 +34,14 @@ export function middleware(req: NextRequest) {
     }
     if (secret == undefined) {
       console.log("processs.env.SECRET is undefined");
-      return NextResponse.redirect("/login");
+      return NextResponse.redirect(new URL("/login", req.url));
     }
     try {
-      verify(jwt.value, secret);
+      await verify(jwt.value, secret);
+
       return NextResponse.next();
     } catch (err) {
-      return NextResponse.redirect("/login");
+      return NextResponse.redirect(new URL("/login", req.url));
     }
   }
   return NextResponse.next();
