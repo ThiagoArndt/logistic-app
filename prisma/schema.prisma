@@ -17,6 +17,8 @@ model users {
 model suppliers {
   supplierId Int        @id @default(autoincrement())
   name       String     @db.VarChar(255)
+  cpfCnpj    String     @db.VarChar(255)
+  endereco   String     @db.VarChar(255)
   products   products[]
 }
 
@@ -31,9 +33,4 @@ model products {
   suppliers   suppliers @relation(fields: [supplierId], references: [supplierId], onDelete: NoAction, onUpdate: NoAction, map: "supplierId")
 
   @@index([supplierId], map: "supplierId_idx")
-}
-
-model requesters {
-  requesterId Int    @id @default(autoincrement())
-  name        String @db.VarChar(255)
 }
