@@ -1,17 +1,18 @@
 import fetch from "node-fetch";
-//import handler from "@/src/pages/api/products/create";
+import handler from "@/src/pages/api/suppliers/read";
 import prisma from "../../../utils/client";
 import { server, setup, teardown } from "../../../utils/integration-test-hooks";
 import jwt from "jsonwebtoken";
 import { suppliers } from "@prisma/client";
+import { token } from "../../../utils/integration-test-hooks";
 
 afterAll((done) => {
   prisma.$disconnect();
-  //server.close();
+  server.close();
   done();
 });
 beforeAll((done) => {
-  //setup(handler);
+  setup(handler);
   done();
 });
 
@@ -20,7 +21,11 @@ describe("/api/suppliers/read", () => {
   //And also close our server/database connection.
 
   it("get all suppliers in database", async () => {
-    const res: any = await fetch("http://localhost:3001/");
+    const res: any = await fetch("http://localhost:3001/", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      }
+    });
 
     const allSuppliers = await prisma.suppliers.findMany({});
 
