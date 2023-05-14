@@ -14,6 +14,7 @@ const data = {
 afterAll((done) => {
   prisma.$disconnect();
   server.close();
+
   done();
 });
 beforeAll((done) => {

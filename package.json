@@ -8,8 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test-w": "jest --watchAll",
-    "test-r": "jest --runInBand"
+    "test-w": "jest --watch",
+    "test-r": "jest --runInBand",
+    "test:auth/register": "jest -i __test__/pages/api/auth/register.test.ts -t \"/api/register\"",
+    "test:auth/login": "jest -i __test__/pages/api/auth/login.test.ts -t \"/api/login\"",
+    "test:suppliers/create": "jest -i __test__/pages/api/suppliers/create.test.ts -t \"/api/suppliers/create\"",
+    "test:suppliers/read": "jest -i __test__/pages/api/suppliers/read.test.ts -t \"/api/suppliers/read\"",
+    "test:suppliers/update": "jest -i __test__/pages/api/suppliers/update.test.ts -t \"/api/suppliers/update\"",
+    "test:suppliers/delete": "jest -i __test__/pages/api/suppliers/delete.test.ts -t \"/api/suppliers/delete\""
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.21.4",

@@ -31,7 +31,7 @@ export default async function handler(
 
       if (checkIfExists.length > 0) {
         res.status(401);
-        res.send('Usuario já cadastrado');
+        res.send({ message: 'Usuario já cadastrado', data: null });
 
       }
       else {
@@ -43,7 +43,7 @@ export default async function handler(
           },
         });
 
-        res.status(200).json('Usuário cadastrado com sucesso!');
+        res.status(200).json({ message: 'Usuário cadastrado com sucesso!', data: user });
       }
       await prisma.$disconnect();
     }

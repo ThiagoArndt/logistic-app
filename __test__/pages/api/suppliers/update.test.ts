@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import handler from "@/src/pages/api/suppliers/update";
 import prisma from "../../../utils/client";
-import { server, setup } from "../../../utils/integration-test-hooks";
+import { server, setup, teardown } from "../../../utils/integration-test-hooks";
 import { suppliers } from "@prisma/client";
 import { token } from "../../../utils/integration-test-hooks";
 
@@ -16,6 +16,7 @@ const data: suppliers = {
 afterAll((done) => {
   prisma.$disconnect();
   server.close();
+
   done();
 });
 beforeAll((done) => {

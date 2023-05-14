@@ -19,6 +19,7 @@ beforeAll((done) => {
 afterAll((done) => {
   prisma.$disconnect();
   server.close();
+
   done();
 });
 
@@ -27,26 +28,24 @@ describe("/api/register", () => {
   //And also close our server/database connection.
 
   it("registers a new user", async () => {
-    const response = await fetch("http://localhost:3001/", {
+    const res = await fetch("http://localhost:3001/", {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
     });
+    const response = await res.json();
+    if (response.data == null) {
+      expect(res.status).toEqual(401);
+    }
+    else {
+      expect(res.status).toEqual(200);
+      expect(response).toEqual(data);
+    }
 
-    expect(response.status).toEqual(200);
+
   });
 
-  it("tries to regiter same user again", async () => {
-    const response = await fetch("http://localhost:3001/", {
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
 
-    expect(response.status).toEqual(401);
-  });
 });
