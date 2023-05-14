@@ -5,8 +5,8 @@ import { server, setup, teardown } from "../../../utils/integration-test-hooks";
 import { cleanUp } from "../../..//utils/db-test-setup";
 
 const data = {
-  username: "atatat",
-  email: "atatat@gmail.com",
+  username: "teste",
+  email: "teste@gmail.com",
   password: "@Teste123",
 };
 
@@ -17,7 +17,6 @@ beforeAll((done) => {
 });
 
 afterAll((done) => {
-  cleanUp();
   prisma.$disconnect();
   server.close();
   done();

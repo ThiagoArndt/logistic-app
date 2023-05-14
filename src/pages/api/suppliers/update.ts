@@ -9,7 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>(async (resolve) => {
     try {
       if (req.method === "POST") {
-        const { name, supplierId }: suppliers = req.body;
+        const { name, cpfCnpj, endereco, supplierId }: suppliers = req.body;
 
         //Token Validation
         verifyToken(req, res);
@@ -18,7 +18,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         const supplier = await prisma.suppliers.update({
           data: {
             name,
-            supplierId,
+            cpfCnpj,
+            endereco
           },
           where: {
             supplierId,
@@ -35,18 +36,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       await prisma.$disconnect();
     } catch (err: any) {
       if (err.meta != undefined) {
-        res.send({ message: "Oops, este fornecedor não existe" });
+        res.status(401).send({ message: "Oops, este fornecedor não existe" });
       } else {
-        res.send({
+        res.status(401).send({
           message: "Oops, favor inserir os tipos dos dados corretamente",
         });
       }
-
-      res.status(500);
-      res.end();
-      await prisma.$disconnect();
-      process.exit(1);
-      return resolve();
     }
+    res.status(500);
+    res.end();
+    await prisma.$disconnect();
+    process.exit(1);
+    return resolve();
+
   });
 }

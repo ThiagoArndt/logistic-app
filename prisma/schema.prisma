@@ -34,3 +34,8 @@ model products {
 
   @@index([supplierId], map: "supplierId_idx")
 }
+
+model requesters {
+  requesterId Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
+}

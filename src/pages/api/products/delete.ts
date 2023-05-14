@@ -13,25 +13,30 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       if (req.method === "DELETE") {
         const id = req.query.productId;
         var productId: number;
-        if (typeof id != "string" || id == undefined) {
-          res.status(401).send({ message: "Id não é uma string" });
+        if (id == undefined) {
+          res.status(401).send({ message: "Id do produto indefinido" });
           return;
-        } else {
-          productId = parseInt(id);
         }
+
+        productId = parseInt(id as string);
+
 
         //Token Validation
         verifyToken(req, res);
 
         //Code
+        try {
+          await prisma.products.delete({
+            where: {
+              productId,
+            },
+          });
 
-        await prisma.products.delete({
-          where: {
-            productId,
-          },
-        });
+          res.status(200).send({ message: "Produto Deletado com Sucesso!" });
+        } catch (err) {
+          res.status(401).send({ message: "Não foi possível deletar o produto" });
 
-        res.status(200).send({ message: "Produto Deletado com Sucesso!" });
+        }
       }
       await prisma.$disconnect();
     } catch (err) {

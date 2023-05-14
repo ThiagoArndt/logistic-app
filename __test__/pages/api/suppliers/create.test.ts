@@ -1,13 +1,11 @@
 import fetch from "node-fetch";
 import handler from "@/src/pages/api/suppliers/create";
 import prisma from "../../../utils/client";
-import { server, setup, teardown } from "../../../utils/integration-test-hooks";
-import jwt from "jsonwebtoken";
-import { suppliers } from "@prisma/client";
+import { server, setup } from "../../../utils/integration-test-hooks";
 import { token } from "../../../utils/integration-test-hooks";
 
 const data = {
-  name: "Joaozinho",
+  name: "Joaozinhoaaa",
   cpfCnpj: "123.243.123-09",
   endereco: "rua das laranjeiras",
 };
@@ -38,7 +36,6 @@ describe("/api/suppliers/create", () => {
       method: "POST",
     });
     const response = await res.json();
-    console.log(response);
     const supplierId = response.data.supplierId;
 
     const supplierUser = await prisma.suppliers.findFirst({
