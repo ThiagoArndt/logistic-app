@@ -24,6 +24,7 @@ Após todas as dependências terem sido baixadas, abra o arquivo .env e configur
 Por exemplo:
 
 No exemplo abaixo, o nome do meu usuário é __root__, minha senha é __123456__ e o nome do meu banco de dados que eu criei foi __almoxarifadodb__
+
 ![image](https://github.com/ThiagoArndt/logistic-app/assets/89104471/fdcd4b0a-80b2-43c7-a662-9c978e177114)
 
 Após configurar o .env, rode o seguinte comando:
@@ -51,6 +52,7 @@ Outra coisa que deve ser pontuada, é que cada teste deve ser rodado individualm
 Para resolver esse problema, fiz scripts no `package.json` que rodam cada teste individualmente.
 
 Código dos scripts:
+
 ![image](https://github.com/ThiagoArndt/logistic-app/assets/89104471/27290cf5-c0b1-4b2e-863c-a685d1c705fe)
 
 Ou seja, caso queira testar a função de registro de usuário, basta rodar o seguinte comando:
