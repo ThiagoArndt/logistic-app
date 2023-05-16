@@ -25,7 +25,7 @@ Por exemplo:
 
 No exemplo abaixo, o nome do meu usuário é __root__, minha senha é __123456__ e o nome do meu banco de dados que eu criei foi __almoxarifadodb__
 
-![image](https://github.com/ThiagoArndt/logistic-app/assets/89104471/fdcd4b0a-80b2-43c7-a662-9c978e177114)
+![image](https://github.com/ThiagoArndt/logistic-app/assets/89104471/df93da8e-a584-4add-99b1-1385a1f91b86)
 
 Após configurar o .env, rode o seguinte comando:
 
@@ -53,7 +53,7 @@ Para resolver esse problema, fiz scripts no `package.json` que rodam cada teste 
 
 Código dos scripts:
 
-![image](https://github.com/ThiagoArndt/logistic-app/assets/89104471/27290cf5-c0b1-4b2e-863c-a685d1c705fe)
+![image](https://github.com/ThiagoArndt/logistic-app/assets/89104471/295c5414-2bb4-4f97-acbe-b3df97f89e52)
 
 Ou seja, caso queira testar a função de registro de usuário, basta rodar o seguinte comando:
 
