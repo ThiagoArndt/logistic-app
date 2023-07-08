@@ -64,4 +64,6 @@ npm run test:auth/register
 E caso queira testar outra funcionalidade, basta rodar algum dos comandos que começam com o prefixo __test:__ nos scripts.
 
 E claro, lembrando que caso o comando "npm run test" seja rodado, os testes resultaram em erro pois serão rodados em paralelo.
+Afinal, estamos criando um "servidor fake" temporário, que abre para testar a regra funcional de negócio que está nas APIs.
+Logo, caso testemos todos ao mesmo tempo, ocorrera um erro.
 
