@@ -1,3 +1,10 @@
+# Integrantes
+- Thiago Cirne Arndt
+- Lukas Thiago
+- Eduardo da Maia
+- Lucas Matheus Gadonski Martins
+- Pablo Lopes
+
 
 # Projeto Almoxarifado TDD
 
