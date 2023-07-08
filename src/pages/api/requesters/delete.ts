@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { PrismaClient, products } from "@prisma/client";
-import { verify } from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
 import { verifyToken } from "@/src/common/utils/api-utils";
-const secret = process.env.SECRET as string;
 
 const prisma = new PrismaClient();
 
@@ -11,14 +8,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>(async (resolve) => {
     try {
       if (req.method === "DELETE") {
-        const id = req.query.productId;
-        var productId: number;
+        const id = req.query.requesterId;
+        var requesterId: number;
         if (id == undefined) {
-          res.status(401).send({ message: "Id do produto indefinido" });
+          res.status(401).send({ message: "Id do solicitante indefinido" });
           return;
         }
 
-        productId = parseInt(id as string);
+        requesterId = parseInt(id as string);
 
 
         //Token Validation
@@ -26,22 +23,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
         //Code
         try {
-          const data = await prisma.products.delete({
+          const data = await prisma.requesters.delete({
             where: {
-              productId,
+              requesterId,
             },
           });
 
-          res.status(200).send({ message: "Produto Deletado com Sucesso!" , data: data});
+          res.status(200).send({ message: "Solicitante Deletado com Sucesso!" , data: data});
         } catch (err) {
-          res.status(401).send({ message: "Não foi possível deletar o produto" });
+          res.status(401).send({ message: "Não foi possível deletar o Solicitante" });
 
         }
       }
       await prisma.$disconnect();
     } catch (err) {
       console.log(err);
-      res.send({ message: "Oops, este produto não existe" });
+      res.send({ message: "Oops, este Solicitante não existe" });
       res.status(500);
       res.end();
       await prisma.$disconnect();

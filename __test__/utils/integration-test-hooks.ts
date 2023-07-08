@@ -36,7 +36,7 @@ export const teardown = async (done: () => void): Promise<void> => {
 };
 
 export const token =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODY1MjczNTksInVzZXJuYW1lIjoidGVzdGUiLCJpYXQiOjE2ODM5MzUzNTl9.uEJmk8w5i9__iLm9it5fr7dK80_3SJ4gvd9MBYgXR2c";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTEzNjkwMzYsInVzZXJuYW1lIjoidGVzdGUiLCJpYXQiOjE2ODg3NzcwMzZ9.y5Sjp9chzrGKFghBuWfTJ8mgoONrjfvoRUvI5xzw9wU";
 
 
 

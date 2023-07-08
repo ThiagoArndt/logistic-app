@@ -12,10 +12,26 @@
     "test-r": "jest --runInBand",
     "test:auth/register": "jest -i __test__/pages/api/auth/register.test.ts -t \"/api/register\"",
     "test:auth/login": "jest -i __test__/pages/api/auth/login.test.ts -t \"/api/login\"",
+
     "test:suppliers/create": "jest -i __test__/pages/api/suppliers/create.test.ts -t \"/api/suppliers/create\"",
     "test:suppliers/read": "jest -i __test__/pages/api/suppliers/read.test.ts -t \"/api/suppliers/read\"",
     "test:suppliers/update": "jest -i __test__/pages/api/suppliers/update.test.ts -t \"/api/suppliers/update\"",
-    "test:suppliers/delete": "jest -i __test__/pages/api/suppliers/delete.test.ts -t \"/api/suppliers/delete\""
+    "test:suppliers/delete": "jest -i __test__/pages/api/suppliers/delete.test.ts -t \"/api/suppliers/delete\"",
+
+    "test:requesters/create": "jest -i __test__/pages/api/requesters/create.test.ts -t \"/api/requesters/create\"",
+    "test:requesters/read": "jest -i __test__/pages/api/requesters/read.test.ts -t \"/api/requesters/read\"",
+    "test:requesters/update": "jest -i __test__/pages/api/requesters/update.test.ts -t \"/api/requesters/update\"",
+    "test:requesters/delete": "jest -i __test__/pages/api/requesters/delete.test.ts -t \"/api/requesters/delete\"",
+
+    "test:orders/create": "jest -i __test__/pages/api/orders/create.test.ts -t \"/api/orders/create\"",
+    "test:orders/read": "jest -i __test__/pages/api/orders/read.test.ts -t \"/api/orders/read\"",
+    "test:orders/update": "jest -i __test__/pages/api/orders/update.test.ts -t \"/api/orders/update\"",
+    "test:orders/delete": "jest -i __test__/pages/api/orders/delete.test.ts -t \"/api/orders/delete\"",
+
+    "test:products/create": "jest -i __test__/pages/api/products/create.test.ts -t \"/api/products/create\"",
+    "test:products/read": "jest -i __test__/pages/api/products/read.test.ts -t \"/api/products/read\"",
+    "test:products/update": "jest -i __test__/pages/api/products/update.test.ts -t \"/api/products/update\"",
+    "test:products/delete": "jest -i __test__/pages/api/products/delete.test.ts -t \"/api/products/delete\""
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.21.4",

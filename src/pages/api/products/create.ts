@@ -26,7 +26,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         //Code
 
         try {
-          await prisma.products.create({
+          const data = await prisma.products.create({
             data: {
               name,
               description,
@@ -36,11 +36,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
               supplierId,
             },
           });
+          res.status(200).send({ message: "Produto Criado com Sucesso!", data: data });
         } catch (err) {
           res.status(200).send({ message: "Erro ao Criar Produto" });
         }
 
-        res.status(200).send({ message: "Produto Criado com Sucesso!" });
+      
       }
       await prisma.$disconnect();
     } catch (err) {

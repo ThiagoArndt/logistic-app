@@ -1,10 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { PrismaClient, products } from '@prisma/client'
-import { verify } from "jsonwebtoken";
-import { PrismaClientRustPanicError, PrismaClientUnknownRequestError } from "@prisma/client/runtime";
+import { PrismaClient, requesters } from '@prisma/client'
 import { verifyToken } from "@/src/common/utils/api-utils";
-const secret = process.env.SECRET as string;
 
 
 const prisma = new PrismaClient();
@@ -16,29 +12,29 @@ export default function handler(
     return new Promise<void>(async (resolve) => {
         try {
             if (req.method === "POST") {
-                const { productId, name, description, quantity, price, photo, supplierId }: products = req.body;
+                const {name, requesterId  }: requesters = req.body;
 
                 //Token Validation
                 verifyToken(req, res);
 
                 //Code
-                const data = await prisma.products.update({
+                const data = await prisma.requesters.update({
                     data: {
-                        name, description, quantity, price, photo, supplierId
+                        name
                     },
                     where: {
-                        productId
+                        requesterId
                     }
                 });
 
-                res.status(200).send({ message: 'Produto Atualizado com Sucesso!', data:data  });
+                res.status(200).send({ message: 'Solicitante Atualizado com Sucesso!', data:data  });
 
             }
             await prisma.$disconnect();
         }
         catch (err: any) {
             if (err.meta != undefined) {
-                res.status(401).send({ message: "Oops, este produto não existe" });
+                res.status(401).send({ message: "Oops, este Solicitante não existe" });
             }
             else {
                 res.status(401).send({ message: "Oops, favor inserir os tipos dos dados corretamente" });

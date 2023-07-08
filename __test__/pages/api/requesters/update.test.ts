@@ -1,8 +1,15 @@
 import fetch from "node-fetch";
-import handler from "@/src/pages/api/suppliers/read";
+import handler from "@/src/pages/api/requesters/update";
 import prisma from "../../../utils/client";
-import { server, setup, teardown } from "../../../utils/integration-test-hooks";
+import { server, setup } from "../../../utils/integration-test-hooks";
+import { requesters} from "@prisma/client";
 import { token } from "../../../utils/integration-test-hooks";
+
+
+const data :requesters = {
+name: 'Joao',
+requesterId: 1,
+};
 
 afterAll((done) => {
   prisma.$disconnect();
@@ -15,26 +22,24 @@ beforeAll((done) => {
   done();
 });
 
-describe("/api/suppliers/read", () => {
-  //Do a query with user email to erase his data from database after test completes.
-  //And also close our server/database connection.
-
-  it("get all suppliers in database", async () => {
+describe("/api/requesters/update", () => {
+  it("update requester in database", async () => {
     const res: any = await fetch("http://localhost:3001/", {
+      body: JSON.stringify(data),
       headers: {
         "Authorization": `Bearer ${token}`,
-      }
+        "Content-Type": "application/json",
+      },
+      method: "POST",
     });
-
-    const allSuppliers = await prisma.suppliers.findMany({});
-
     const response = await res.json();
 
-    if (allSuppliers == null) {
+    if (response.data == null) {
       expect(res.status).toEqual(401);
     } else {
       expect(res.status).toEqual(200);
-      expect(response.data).toEqual(allSuppliers);
+
+      expect(response.data).toEqual(data);
     }
   });
 });

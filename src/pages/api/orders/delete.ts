@@ -11,14 +11,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>(async (resolve) => {
     try {
       if (req.method === "DELETE") {
-        const id = req.query.productId;
-        var productId: number;
+        const id = req.query.orderId;
+        var orderId: number;
         if (id == undefined) {
-          res.status(401).send({ message: "Id do produto indefinido" });
+          res.status(401).send({ message: "Id do pedido indefinido" });
           return;
         }
 
-        productId = parseInt(id as string);
+        orderId = parseInt(id as string);
 
 
         //Token Validation
@@ -26,22 +26,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
         //Code
         try {
-          const data = await prisma.products.delete({
+          const data = await prisma.orders.delete({
             where: {
-              productId,
+              orderId,
             },
           });
 
-          res.status(200).send({ message: "Produto Deletado com Sucesso!" , data: data});
+          res.status(200).send({ message: "Pedido Deletado com Sucesso!" , data: data});
         } catch (err) {
-          res.status(401).send({ message: "Não foi possível deletar o produto" });
+          res.status(401).send({ message: "Não foi possível deletar o Pedido" });
 
         }
       }
       await prisma.$disconnect();
     } catch (err) {
       console.log(err);
-      res.send({ message: "Oops, este produto não existe" });
+      res.send({ message: "Oops, este Pedido não existe" });
       res.status(500);
       res.end();
       await prisma.$disconnect();

@@ -1,13 +1,16 @@
 import fetch from "node-fetch";
-import handler from "@/src/pages/api/suppliers/create";
+import handler from "@/src/pages/api/products/create";
 import prisma from "../../../utils/client";
 import { server, setup, teardown } from "../../../utils/integration-test-hooks";
 import { token } from "../../../utils/integration-test-hooks";
 
 const data = {
   name: "Joaozinhoaaa",
-  cpfCnpj: "123.243.123-09",
-  endereco: "rua das laranjeiras",
+  description: "123.243.123-09",
+  quantity: 4,
+  price: 25,
+  photo: "teste",
+  supplierId: 3
 };
 
 
@@ -23,11 +26,11 @@ beforeAll((done) => {
   done();
 });
 
-describe("/api/suppliers/create", () => {
+describe("/api/products/create", () => {
   //Do a query with user email to erase his data from database after test completes.
   //And also close our server/database connection.
 
-  it("insert supplier in database", async () => {
+  it("insert product in database", async () => {
     const res: any = await fetch("http://localhost:3001/", {
       body: JSON.stringify(data),
       headers: {
@@ -38,16 +41,16 @@ describe("/api/suppliers/create", () => {
       method: "POST",
     });
     const response = await res.json();
+ 
+    const productId = response.data.productId;
 
-    const supplierId = response.data.supplierId;
-
-    const supplierUser = await prisma.suppliers.findFirst({
+    const product = await prisma.products.findFirst({
       where: {
-        supplierId: supplierId,
+        productId: productId,
       },
     });
 
-    if (supplierUser == null) {
+    if (product == null) {
       expect(res.status).toEqual(401);
     } else {
       expect(res.status).toEqual(200);
